@@ -229,6 +229,12 @@ body::before {
 }
 body > * { position: relative; z-index: 1; }
 
+/* ===== Modal card (lifted further off the page than regular cards) ===== */
+.modal-card {
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 10px 10px 0 var(--color-ink);
+}
+
 /* ===== Stagger reveal ===== */
 @keyframes rise {
   from { opacity: 0; transform: translateY(8px); }
