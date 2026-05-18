@@ -1,0 +1,241 @@
+@import "tailwindcss";
+
+@theme {
+  /* Tavus paper / cream palette */
+  --color-paper: #f7f4ef;
+  --color-paper-2: #f3eee7;
+  --color-paper-3: #eae5de;
+  --color-paper-4: #ddd5c4;
+
+  /* Ink */
+  --color-ink: #140206;
+  --color-ink-2: #2c1518;
+  --color-ink-3: #5a4347;
+  --color-ink-soft: rgba(20, 2, 6, 0.6);
+  --color-ink-mute: rgba(20, 2, 6, 0.4);
+
+  /* Accents */
+  --color-pulse: #38f261;
+  --color-warn: #ff6183;
+  --color-warn-2: #ff8aa3;
+  --color-sand: #c9bdaa;
+  --color-lavender: #e4e0f2;
+
+  /* Lines */
+  --color-line: #140206;
+  --color-line-soft: rgba(20, 2, 6, 0.14);
+  --color-line-softer: rgba(20, 2, 6, 0.07);
+
+  /* Fonts */
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Fraunces", "Perfectly Nineties", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html, body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-mono);
+  font-feature-settings: "ss01", "cv01", "tnum";
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ===== Typography utilities ===== */
+.serif {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  letter-spacing: -0.018em;
+}
+.serif-italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+}
+.mono { font-family: var(--font-mono); }
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+/* ===== Bullet decorators (the Tavus signature) ===== */
+.bullet::before {
+  content: "";
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  background: var(--color-ink);
+  margin-right: 0.55em;
+  vertical-align: 0.04em;
+  flex-shrink: 0;
+}
+.bullet-only {
+  display: inline-block;
+  width: 0.62em;
+  height: 0.62em;
+  background: var(--color-ink);
+  flex-shrink: 0;
+}
+.bullet-warn { background: var(--color-warn); }
+.bullet-pulse { background: var(--color-pulse); }
+.bullet-sand { background: var(--color-sand); }
+.bullet-hollow {
+  background: transparent;
+  border: 1.5px solid var(--color-ink);
+}
+
+/* ===== Cards (brutalist postcards) ===== */
+.card {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 3px 3px 0 var(--color-ink);
+}
+.card-warm {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 3px 3px 0 var(--color-ink);
+}
+.card-sand {
+  background: var(--color-paper-2);
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 3px 3px 0 var(--color-ink);
+}
+.card-flat {
+  background: var(--color-paper);
+  border: 1.5px solid var(--color-ink);
+}
+
+/* ===== Pink sticker CTA ===== */
+.cta-pink {
+  background: var(--color-warn);
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-ink);
+  box-shadow: 5px 5px 0 var(--color-ink);
+  transition: box-shadow 120ms ease, transform 120ms ease;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.cta-pink:hover {
+  box-shadow: 2px 2px 0 var(--color-ink);
+  transform: translate(3px, 3px);
+}
+.cta-pink:active {
+  box-shadow: 0 0 0 var(--color-ink);
+  transform: translate(5px, 5px);
+}
+
+/* ===== Ghost button ===== */
+.btn-ghost {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  border: 1.5px solid var(--color-ink);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: background 120ms ease;
+}
+.btn-ghost:hover { background: var(--color-paper-3); }
+
+/* ===== Ink button (inverted) ===== */
+.btn-ink {
+  background: var(--color-ink);
+  color: var(--color-paper);
+  border: 1.5px solid var(--color-ink);
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  transition: background 120ms ease;
+}
+.btn-ink:hover { background: var(--color-ink-2); }
+
+/* ===== Pulsing dot ===== */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+.pulse-dot { animation: pulse-dot 1.6s ease-in-out infinite; }
+
+/* ===== Streaming caret ===== */
+@keyframes caret-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+.caret::after {
+  content: "▍";
+  color: var(--color-warn);
+  margin-left: 2px;
+  animation: caret-blink 0.85s steps(1) infinite;
+}
+
+/* ===== Ticker glow on hero update ===== */
+@keyframes ticker-glow {
+  0% { background-color: transparent; }
+  40% { background-color: var(--color-pulse); }
+  100% { background-color: transparent; }
+}
+.ticker-glow {
+  animation: ticker-glow 700ms ease-out;
+  padding: 0 2px;
+  margin: 0 -2px;
+}
+
+/* ===== Recharts overrides for the light theme ===== */
+.recharts-cartesian-axis-tick-value {
+  fill: var(--color-ink-3) !important;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: var(--color-line-soft) !important;
+  stroke-dasharray: 0 !important;
+}
+.recharts-tooltip-wrapper { outline: none !important; }
+.recharts-legend-wrapper { font-family: var(--font-mono) !important; }
+
+/* ===== Scrollbar ===== */
+.thin-scroll::-webkit-scrollbar { width: 10px; height: 10px; }
+.thin-scroll::-webkit-scrollbar-track { background: var(--color-paper-3); }
+.thin-scroll::-webkit-scrollbar-thumb { background: var(--color-ink); border: 2px solid var(--color-paper-3); }
+
+/* ===== Selection ===== */
+::selection { background: var(--color-warn); color: var(--color-ink); }
+
+/* ===== Subtle paper texture on body ===== */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(180deg, rgba(20,2,6,0.012) 0 1px, transparent 1px 4px);
+  mix-blend-mode: multiply;
+}
+body > * { position: relative; z-index: 1; }
+
+/* ===== Stagger reveal ===== */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 480ms cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.rise-1 { animation-delay: 60ms; }
+.rise-2 { animation-delay: 120ms; }
+.rise-3 { animation-delay: 180ms; }
+.rise-4 { animation-delay: 240ms; }
