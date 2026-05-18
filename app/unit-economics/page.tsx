@@ -35,8 +35,6 @@ export default function UnitEconomicsPage() {
         <ChartCard
           label="Inference cost"
           title="Cost per conversation minute, 90 days"
-          metric="Cost per conversation minute"
-          context="Trended 90 days; Phoenix-4 launched day 88; today's cost is in cents per minute."
           headlineValue={`${(today.costPerMinute * 100).toFixed(2)}¢`}
           headlineDelta={{ label: `${formatPercent(costDelta, 1)} vs 90d`, positive: costDelta < 0 }}
         >
@@ -46,8 +44,6 @@ export default function UnitEconomicsPage() {
         <ChartCard
           label="Tier margin"
           title="Gross margin by tier"
-          metric="Gross margin by tier"
-          context="Three tiers (Starter $0.36/min, Growth $0.30/min, Enterprise $0.24/min) against today's inference cost."
           headlineValue={`${(today.grossMargin * 100).toFixed(1)}%`}
           headlineDelta={{ label: `Blended, +${(gmDelta * 100).toFixed(1)} pts vs 90d`, positive: gmDelta > 0 }}
         >
@@ -59,8 +55,6 @@ export default function UnitEconomicsPage() {
         <ChartCard
           label="The Squeeze"
           title="Inference cost vs blended price per minute"
-          metric="The cost-price squeeze"
-          context="Two lines: blended price per minute (ink) and inference cost per minute (pink). Shaded area is margin. Phoenix-4 widened the gap mid-window."
           headlineValue={`${marginPerMinuteCents.toFixed(1)}¢`}
           headlineDelta={{ label: "Margin per minute", positive: true }}
         >
@@ -72,8 +66,6 @@ export default function UnitEconomicsPage() {
         <ChartCard
           label="Tier mix"
           title="Revenue mix shift, 90 days"
-          metric="Tier mix shift"
-          context={`Enterprise share went from ${(enterprise90Share * 100).toFixed(1)}% to ${(enterpriseTodayShare * 100).toFixed(1)}% over 90 days.`}
           headlineValue={`${(enterpriseTodayShare * 100).toFixed(1)}%`}
           headlineDelta={{ label: `Enterprise, ${enterpriseShift >= 0 ? "+" : ""}${(enterpriseShift * 100).toFixed(1)} pts`, positive: enterpriseShift > 0 }}
         >

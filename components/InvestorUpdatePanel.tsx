@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Flag = { severity: "info" | "watch" | "issue"; label: string; detail: string };
 
@@ -13,6 +13,26 @@ export function InvestorUpdatePanel() {
   const [summary, setSummary] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+
+  // Lock body scroll while modal is open
+  useEffect(() => {
+    if (!open) return;
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = prev;
+    };
+  }, [open]);
+
+  // Close on Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
 
   async function generate() {
     setDraft("");
@@ -86,35 +106,39 @@ export function InvestorUpdatePanel() {
 
       {open && (
         <div
-          className="fixed inset-0 z-50 flex justify-end bg-ink/30"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-ink/45 backdrop-blur-md p-6"
           onClick={() => setOpen(false)}
         >
           <div
-            className="flex h-full w-full max-w-[720px] flex-col border-l-[1.5px] border-ink bg-paper"
+            className="card flex w-full max-w-[920px] max-h-[88vh] flex-col bg-paper"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b-[1.5px] border-ink bg-paper-2 px-7 py-4">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b-[1.5px] border-ink px-7 py-4 shrink-0">
               <div className="flex items-center gap-2.5 label">
                 <span className="bullet-only" />
                 Investor update
               </div>
-              <button
-                onClick={() => setOpen(false)}
-                className="mono text-[14px] text-ink hover:text-warn"
-                aria-label="Close"
-              >
-                ✕
-              </button>
+              <div className="flex items-center gap-4">
+                {summary && (
+                  <span className="label text-ink-soft normal-case tracking-normal">{summary}</span>
+                )}
+                <button
+                  onClick={() => setOpen(false)}
+                  className="mono text-[16px] text-ink hover:text-warn leading-none"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
+            {/* Drift check flags */}
             {(flags.length > 0 || evaluating) && (
-              <div className="border-b border-ink bg-paper-3 px-7 py-4">
-                <div className="flex items-center justify-between mb-3 label">
-                  <div className="flex items-center gap-2.5">
-                    <span className={`inline-block h-[7px] w-[7px] ${evaluating ? "bg-warn pulse-dot" : "bg-pulse"}`} />
-                    Drift check
-                  </div>
-                  {summary && <span className="label text-ink-soft normal-case tracking-normal">{summary}</span>}
+              <div className="border-b border-ink bg-paper-2 px-7 py-4 shrink-0">
+                <div className="flex items-center gap-2.5 mb-3 label">
+                  <span className={`inline-block h-[7px] w-[7px] ${evaluating ? "bg-warn pulse-dot" : "bg-pulse"}`} />
+                  Drift check
                 </div>
                 {evaluating && <div className="mono text-[12px] text-ink-soft caret">Evaluator reading the draft</div>}
                 {!evaluating && flags.length > 0 && (
@@ -141,18 +165,20 @@ export function InvestorUpdatePanel() {
               </div>
             )}
 
-            <div className="thin-scroll flex-1 overflow-y-auto px-9 py-7">
+            {/* Draft body */}
+            <div className="thin-scroll flex-1 overflow-y-auto px-10 py-8">
               {error && <p className="mono text-[13px] text-warn">{error}</p>}
               {!error && (
                 <div
-                  className={`whitespace-pre-wrap serif text-[16.5px] leading-[1.65] text-ink ${streaming ? "caret" : ""}`}
+                  className={`whitespace-pre-wrap serif text-[17px] leading-[1.7] text-ink ${streaming ? "caret" : ""}`}
                 >
                   {draft || (streaming ? <span className="text-ink-mute">Drafting</span> : null)}
                 </div>
               )}
             </div>
 
-            <div className="flex items-center justify-between border-t-[1.5px] border-ink bg-paper-2 px-7 py-4">
+            {/* Footer */}
+            <div className="flex items-center justify-between border-t-[1.5px] border-ink bg-paper-2 px-7 py-4 shrink-0">
               <button
                 onClick={generate}
                 disabled={streaming}
