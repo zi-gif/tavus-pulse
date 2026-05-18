@@ -2,7 +2,6 @@ import { MorningBriefing } from "@/components/MorningBriefing";
 import { HeroMetric } from "@/components/HeroMetric";
 import { TopAccounts } from "@/components/TopAccounts";
 import { AnomalyList } from "@/components/AnomalyList";
-import { InvestorUpdatePanel } from "@/components/InvestorUpdatePanel";
 import { customers, sevenDayAvg, today, yesterday, arrRunRate, thirtyDayMinutes, TODAY_ISO } from "@/data/metrics";
 import { formatCompact, formatCurrencyCompact } from "@/lib/format";
 
@@ -44,7 +43,6 @@ export default function DailyPulsePage() {
             <div className="label text-ink-soft">CVI mins, 30d</div>
             <div className="mono tabular text-[22px] text-ink mt-1.5 font-medium leading-none">{formatCompact(mtdMinutes, 1)}</div>
           </div>
-          <InvestorUpdatePanel />
         </div>
       </div>
 
